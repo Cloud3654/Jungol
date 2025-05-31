@@ -8,8 +8,8 @@ int poster = 0;
 void loop() {
     int min_h = 1e9 + 1;
     for (auto& p : h) {
-        if (p == 0) continue;
-        if (p < min_h) min_h = p, p = 0, poster++;
+        if (p < min_h && p != 0) min_h = p, p = 0, poster++;
+        else if (p == 0) min_h = 1e9 + 1;
         else p -= min_h;
     }
 }
@@ -17,9 +17,6 @@ int main() {
     int cnt; cin >> cnt, b.resize(cnt);
     for (auto& p : b) cin >> p.first >> p.second;
     for (auto p : b) h.push_back(p.second);
-    while (*max_element(h.begin(), h.end())) {
-        loop();
-        for (auto p : h) cout << p << ' '; cout << ": " << poster << endl; 
-    }
+    while (*max_element(h.begin(), h.end())) loop();
     cout << poster;
 }
